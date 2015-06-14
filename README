@@ -2,9 +2,8 @@ goptfoo(3) - utility functions for command-line option parsing
 
 Build and install:
 
-  TODO
-
-TODO but how generate proper pkgconfig foo if DESTDIR can change location?
+  AUTOMAKE_VERSION=1.15 AUTOCONF_VERSION=2.69 autoreconf -i
+  ./configure [--prefix=...] && make && make install
 
 Once installed, include the library and call the appropriate flagto*
 functions. If the user input cannot be parsed, or lies outside the given

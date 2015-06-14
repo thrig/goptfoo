@@ -1,10 +1,14 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 AC_INIT([goptfoo], [1:1], [https://github.com/thrig/goptfoo])
 AC_CONFIG_SRCDIR([lib/goptfoo.c])
 AC_CONFIG_HEADER([config.h])
+
+# standard configuration for shared libraries
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign]) # don't insert GNU files
 LT_INIT([disable-static])
