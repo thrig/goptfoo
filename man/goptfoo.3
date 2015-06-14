@@ -80,6 +80,17 @@ may differ, for example.
 \&...
     calloc((size_t)Flag_Memsize, sizeof(...
 .Ed
+.Pp
+If this library has been installed to a non-default location, use
+.Pa pkg-config
+to obtain the necessary details for compilation. A
+.Pa Mafile
+might use something along the lines of:
+.Bd -literal -offset indent
+CFLAGS += `pkg-config --libs --cflags goptfoo`
+
+\&...
+.Ed
 .Sh SEE ALSO
 .Xr getopt 3 ,
 .Xr strtod 3 ,
