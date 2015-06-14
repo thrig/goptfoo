@@ -1,0 +1,53 @@
+goptfoo(3) - utility functions for command-line option parsing
+
+Build and install:
+
+  TODO
+
+TODO but how generate proper pkgconfig foo if DESTDIR can change location?
+
+Once installed, include the library and call the appropriate flagto*
+functions. If the user input cannot be parsed, or lies outside the given
+limits, an error message will be printed to standard error, and the
+process will exit with the EX_DATAERR code (from sysexits(3)).
+
+Consult goptfoo(3) for a list of available functions and example code.
+
+
+Bugs and feature requests should be directed to:
+
+https://github.com/thrig/goptfoo
+
+though the intent is not to greatly complicate this code, which means no
+gettext or the like for fancy internationalized error messages, nor
+error handling beyond simply calling err() to bail the process when
+things go awry.
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2015 Jeremy Mates
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+HISTORY
+
+Motivated by the need for option processing in C, and the unportability
+of the otherwise excellent OpenBSD strtonum(3) function (leaving aside
+how to handle floats), and the much boilerplate required to at least
+provide a modest barrier to invalid or otherwise malicious input. These
+functions at one point littered various scripts, then got moved to
+arbitrary *.{c,h} files that were manually included, and finally to this
+library. The Churchill quote on doing everything first the wrong way is
+much in mind.

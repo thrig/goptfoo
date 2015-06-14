@@ -1,0 +1,10 @@
+prefix=TODO
+exec_prefix=TODO
+libdir=TODO
+includedir=TODO
+
+Name: goptfoo
+Description: Utility functions for command-line option parsing
+Version: TODO
+Libs: -L${libdir} -lgoptfoo
+Cflags: -I${includedir}

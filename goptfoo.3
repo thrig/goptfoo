@@ -1,0 +1,91 @@
+.Dd $MDocdate: June 13 2015 $
+.Dt GOPTFOO 3
+.Os
+.Sh NAME
+.Nm flagtod ,
+.Nm flagtof ,
+.Nm flagtoll ,
+.Nm flagtoul
+.Nd utility functions for command-line option parsing
+.Sh SYNOPSIS
+.In goptfoo.h
+.Ft double
+.Fn flagtod "const int flag" "const char *flagarg" "const double min" "const double max"
+.Ft float
+.Fn flagtof "const int flag" "const char" "*flagarg" "const float min" "const float max"
+.Ft long long
+.Fn flagtoll "const int flag" "const char *flagarg" "const long long min" "const long long max"
+.Ft unsigned long
+.Fn flagtoul "const int flag" "const char *flagarg" "const unsigned long min" "const unsigned long max"
+.Sh DESCRIPTION
+These functions provide means to convert command-line option values into
+C data types, with error checking and limits to help prevent invalid
+input. If the user input cannot be parsed, or lies outside the given
+limits, an error message will be printed to standard error, and the
+process will exit with the
+.Dv EX_DATAERR
+code from
+.Xr sysexits 3 .
+.Pp
+Should custom limits on the input not be necessary, specify appropriate minimum and maximum values; for the integer related functions, use
+.Dv ULONG_MAX
+or the like from the system
+.Pa limits.h
+include file; for the floating point functions, specify
+.Dv NAN
+to disable the min or maximum limit checks (or use an infinite number).
+.Sh EXAMPLES
+A fragment that illustrates how to parse two command line options.
+.Bd -literal -offset indent
+#include <goptfoo.h>
+
+#define DIST_MIN 0.1
+#define DIST_MAX 2.0
+
+#define KLING_MP 1000
+
+float Flag_Distance;               // -d
+unsigned long Flag_Klingon_Power;  // -k
+
+int main(int argc, char *argv[])
+{
+    int ch;
+    
+    while ((ch = getopt(argc, argv, "d:k:...")) != -1) {
+        switch (ch) {
+        
+        case 'd':
+            Flag_Distance = flagtof(ch, optarg, DIST_MIN, DIST_MAX);
+            break;
+        
+        case 'd':
+            Flag_Klingon_Power = flagtoul(ch, optarg, 1UL, KLING_MP);
+            break;
+\&...
+.Ed
+.Pp
+Note that when an
+.Vt unsigned long
+argument is subsequently cast to some other type, the actual maximum could either be
+.Dv ULONG_MAX
+or the maximum of the other type, depending on which is smaller. One option is to define a macro that picks the smallest of the two types (or the largest for minimums). This will help avoid integer over- or underflows and improve portability to systems where
+.Vt unsigned long
+and
+.Vt size_t
+may differ, for example.
+.Bd -literal -offset indent
+#define MAXMEM ( (ULONG_MAX < SIZE_MAX) ? ULONG_MAX : SIZE_MAX )
+\&...
+            Flag_Memsize = flagtoul(ch, optarg, 1UL, MAXMEM);
+\&...
+    calloc((size_t)Flag_Memsize, sizeof(...
+.Ed
+.Sh SEE ALSO
+.Xr getopt 3 ,
+.Xr strtod 3 ,
+.Xr strtof 3 ,
+.Xr strtoll 3 ,
+.Xr strtoul 3 ,
+.Xr sysexits 3
+.Sh AUTHORS
+.An Jeremy Mates
