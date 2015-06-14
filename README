@@ -2,7 +2,9 @@ goptfoo(3) - utility functions for command-line option parsing
 
 Build and install:
 
-  AUTOMAKE_VERSION=1.15 AUTOCONF_VERSION=2.69 autoreconf -i
+  export AUTOMAKE_VERSION=1.15
+  export AUTOCONF_VERSION=2.69
+  autoreconf -i
   ./configure [--prefix=...] && make && make install
 
 Once installed, include the library and call the appropriate flagto*

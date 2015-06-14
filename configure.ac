@@ -13,7 +13,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign]) # don't insert GNU files
 LT_INIT([disable-static])
 
-AC_SUBST(AM_CFLAGS,"-std=c99 -pedantic -Wall -Werror -fstack-protector-all")
+AC_SUBST(AM_CFLAGS,"-std=c99 -pedantic -Wall -fstack-protector-all")
 
 # Checks for programs.
 AC_PROG_CC_C99
