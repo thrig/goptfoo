@@ -2,12 +2,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT([goptfoo], [1:1], [https://github.com/thrig/goptfoo])
+AC_INIT([goptfoo], [2], [https://github.com/thrig/goptfoo])
 AC_CONFIG_SRCDIR([lib/goptfoo.c])
 AC_CONFIG_HEADER([config.h])
 
 # standard configuration for shared libraries
 AC_CONFIG_AUX_DIR([build-aux])
+# NOTE older versions of auto* require that one manually mkdir this dir
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign]) # don't insert GNU files
@@ -29,7 +30,7 @@ AC_C_CONST
 
 # Checks for library functions.
 AC_FUNC_STRTOD
-AC_CHECK_FUNCS([strtoul])
+AC_CHECK_FUNCS([strtof strtoll strtoul])
 
 AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile goptfoo.pc])
 AC_OUTPUT

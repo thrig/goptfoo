@@ -1,6 +1,6 @@
 goptfoo(3) - utility functions for command-line option parsing
 
-Build and install:
+Build and install along the lines of:
 
   export AUTOMAKE_VERSION=1.15
   export AUTOCONF_VERSION=2.69
