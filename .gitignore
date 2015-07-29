@@ -3,6 +3,7 @@ Makefile.in
 TODO
 aclocal.m4
 autom4te.cache/
+autoscan*.log
 build-aux
 compile
 config.guess

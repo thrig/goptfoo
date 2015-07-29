@@ -15,6 +15,13 @@ process will exit with the EX_DATAERR code (from sysexits(3)).
 Consult goptfoo(3) for a list of available functions and example code.
 
 
+To clean up the auto* leavings, perhaps:
+
+  find . | git check-ignore --stdin | xargs rm
+
+Assuming the .gitignore patterns are correct.
+
+
 Bugs and feature requests should be directed to:
 
 https://github.com/thrig/goptfoo
