@@ -1,10 +1,13 @@
-.Dd $MDocdate: June 13 2015 $
+.Dd August 5, 2015
 .Dt GOPTFOO 3
 .Os
 .Sh NAME
 .Nm flagtod ,
 .Nm flagtof ,
 .Nm flagtoll ,
+.Nm flagtolods ,
+.Nm flagtololls ,
+.Nm flagtolous ,
 .Nm flagtoul
 .Nd utility functions for command-line option parsing
 .Sh SYNOPSIS
@@ -15,25 +18,55 @@
 .Fn flagtof "const int flag" "const char" "*flagarg" "const float min" "const float max"
 .Ft long long
 .Fn flagtoll "const int flag" "const char *flagarg" "const long long min" "const long long max"
+.Ft size_t
+.Fn flagtolods "const int flag" "const char *flagarg" "const double min" "const double max" "double **items" "size_t * numitems" "const size_t list_min" "size_t list_max"
+.Ft size_t
+.Fn flagtololls "const int flag" "const char *flagarg" "const long long min" "const long long max" "long long **items" "size_t * numitems" "const size_t list_min" "size_t list_max"
+.Ft size_t
+.Fn flagtolouls "const int flag" "const char *flagarg" "const unsigned long min" "const unsigned long max" "unsigned long **items" "size_t * numitems" "const size_t list_min" "size_t list_max"
 .Ft unsigned long
 .Fn flagtoul "const int flag" "const char *flagarg" "const unsigned long min" "const unsigned long max"
 .Sh DESCRIPTION
 These functions provide means to convert command-line option values into
 C data types, with error checking and limits to help prevent invalid
-input. If the user input cannot be parsed, or lies outside the given
-limits, an error message will be printed to standard error, and the
-process will exit with the
+input. Should custom limits on the input not be necessary, specify
+appropriate minimum and maximum values; for the integer related
+functions, use
+.Dv ULONG_MAX
+or similar from the system
+.In limits.h ;
+for the floating point functions, specify
+.Dv NAN
+to disable the min or maximum limit checks (or use an infinite number).
+.Sh RETURN VALUES
+If the user input cannot be parsed, or lies outside the given limits, an
+error message will be printed to standard error, and the process will
+exit with the
 .Dv EX_DATAERR
 code from
 .Xr sysexits 3 .
+The functions that create lists of values may also exit the process
+with the
+.Dv EX_OSERR
+code, in the event a
+.Xr realloc 3
+call failed. Otherwise, the return value is either the single value parsed, or for the list-of-value functions, the number of items parsed. This number of items is also placed into the 
+.Ql numitems
+pointer, unless the caller sets that to
+.Dv NULL .
 .Pp
-Should custom limits on the input not be necessary, specify appropriate minimum and maximum values; for the integer related functions, use
-.Dv ULONG_MAX
-or the like from the system
-.Pa limits.h
-include file; for the floating point functions, specify
-.Dv NAN
-to disable the min or maximum limit checks (or use an infinite number).
+Negative values will result in an error from functions that deal with
+unsigned integers (the default of
+.Xr strtoul 3
+is to do something else with such values).
+.Pp
+The caller should if necessary
+.Xr free 3
+the 
+.Ql items **
+list populated by the 
+.Ql flagtolo*s
+functions when done with those values.
 .Sh EXAMPLES
 A fragment that illustrates how to parse two command line options.
 .Bd -literal -offset indent
@@ -83,8 +116,8 @@ may differ, for example.
 .Pp
 If this library has been installed to a non-default location, use
 .Pa pkg-config
-to obtain the necessary details for compilation. A
-.Pa Mafile
+to obtain the necessary details for compilation. A BSD
+.Pa Makefile
 might use something along the lines of:
 .Bd -literal -offset indent
 CFLAGS += `pkg-config --libs --cflags goptfoo`
@@ -98,5 +131,19 @@ CFLAGS += `pkg-config --libs --cflags goptfoo`
 .Xr strtoll 3 ,
 .Xr strtoul 3 ,
 .Xr sysexits 3
+.Pp
+Code that uses this library may be found under:
+.Pp
+.Lk https://github.com/thrig/sial.org-scripts/
 .Sh AUTHORS
 .An Jeremy Mates
+.Sh SECURITY CONSIDERATIONS
+This code has not much been scrutinized for problems. It should be
+before being used in any environment with malicious users or untrusted
+input. In particular, the
+.Ql flagtolo*s
+functions are complicated and thus more likely to contain bugs than the
+single-value returning functions. Where possible, set appropriate limits.
+In particular, the
+.Ql list_max
+variable should be no larger than necessary.

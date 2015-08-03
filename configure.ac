@@ -2,9 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT([goptfoo], [2], [https://github.com/thrig/goptfoo])
+AC_INIT([goptfoo], [3], [https://github.com/thrig/goptfoo])
 AC_CONFIG_SRCDIR([lib/goptfoo.c])
-AC_CONFIG_HEADER([config.h])
 
 # standard configuration for shared libraries
 AC_CONFIG_AUX_DIR([build-aux])
@@ -14,23 +13,20 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign]) # don't insert GNU files
 LT_INIT([disable-static])
 
-AC_SUBST(AM_CFLAGS,"-std=c99 -pedantic -Wall -fstack-protector-all")
-
-# Checks for programs.
+# TODO probably should check ac_cv_prog_cc_c99 shell variable and fail
+# if c99 compiler not present.
 AC_PROG_CC_C99
 
-# Checks for libraries.
+AC_SUBST(AM_CFLAGS,"-pedantic -Wall -fstack-protector-all")
+AC_CONFIG_HEADERS([config.h])
 
-# Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([limits.h stdlib.h unistd.h])
+AC_CHECK_HEADERS([ctype.h err.h limits.h math.h stdlib.h sysexits.h unistd.h])
 
-# Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 
-# Checks for library functions.
 AC_FUNC_STRTOD
-AC_CHECK_FUNCS([strtof strtoll strtoul])
+AC_CHECK_FUNCS([realloc strtof strtoll strtoul])
 
-AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile goptfoo.pc])
+AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile demo/Makefile goptfoo.pc])
 AC_OUTPUT

@@ -2,6 +2,7 @@ goptfoo(3) - utility functions for command-line option parsing
 
 Build and install along the lines of:
 
+  unset CFLAGS
   export AUTOMAKE_VERSION=1.15
   export AUTOCONF_VERSION=2.69
   autoreconf -i
@@ -9,18 +10,14 @@ Build and install along the lines of:
 
 Once installed, include the library and call the appropriate flagto*
 functions. If the user input cannot be parsed, or lies outside the given
-limits, an error message will be printed to standard error, and the
-process will exit with the EX_DATAERR code (from sysexits(3)).
+limits, an error message will be sent to standard error, and the process
+will exit with a code from sysexits(3).
 
-Consult goptfoo(3) for a list of available functions and example code.
+Consult goptfoo(3) for a list of available functions and example code;
+see also the demo/ directory of this distribution.
 
 
-To clean up the auto* leavings, perhaps:
-
-  find . | git check-ignore --stdin | xargs rm
-
-Assuming the .gitignore patterns are correct.
-
+BUGS
 
 Bugs and feature requests should be directed to:
 
@@ -30,6 +27,23 @@ though the intent is not to greatly complicate this code, which means no
 gettext or the like for fancy internationalized error messages, nor
 error handling beyond simply calling err() to bail the process when
 things go awry.
+
+
+PORTABILITY
+
+Portability has not been much tested, with my usage being mostly
+confined to OpenBSD (6.7), less so Mac OS X (10.10), and much less so
+Linux (RedHat EL 6).
+
+
+CLEANUP
+
+To clean up the auto* leavings, perhaps:
+
+  find . | git check-ignore --stdin | xargs rm
+
+Assuming the .gitignore patterns are correct. Or, clone from a clean git
+repository, and delete the clone when done building.
 
 
 COPYRIGHT AND LICENCE

@@ -1,6 +1,5 @@
 Makefile
 Makefile.in
-TODO
 aclocal.m4
 autom4te.cache/
 autoscan*.log
@@ -20,12 +19,17 @@ lib/.deps
 lib/.libs
 lib/Makefile
 lib/Makefile.in
-lib/goptfoo.lo
+lib/*goptfoo.lo
 lib/libgoptfoo.la
 libtool
 ltmain.sh
 m4
 man/Makefile
 man/Makefile.in
+man/mandoc.db
 missing
 stamp-h1
+demo/.deps
+demo/.libs
+demo/goptfoo
+demo/goptfoo.o
