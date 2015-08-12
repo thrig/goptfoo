@@ -137,6 +137,15 @@ Code that uses this library may be found under:
 .Lk https://github.com/thrig/sial.org-scripts/
 .Sh AUTHORS
 .An Jeremy Mates
+.Sh CAVEATS
+This software uses
+.In math.h ;
+if used in a program that names a variable
+.Va sin
+(commonly of
+.Vt struct sockaddr_in
+type) then there may be compiler warnings and possibly other issues stemming from the thus shadowed global declaration of
+.Fn sin .
 .Sh SECURITY CONSIDERATIONS
 This code has not much been scrutinized for problems. It should be
 before being used in any environment with malicious users or untrusted
