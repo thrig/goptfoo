@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.60)
-AC_INIT([goptfoo], [3], [https://github.com/thrig/goptfoo])
+AC_INIT([goptfoo], [4], [https://github.com/thrig/goptfoo])
 AC_CONFIG_SRCDIR([lib/goptfoo.c])
 
 # standard configuration for shared libraries

@@ -2,11 +2,19 @@ goptfoo(3) - utility functions for command-line option parsing
 
 Build and install along the lines of:
 
-  unset CFLAGS
   export AUTOMAKE_VERSION=1.15
   export AUTOCONF_VERSION=2.69
   autoreconf -i
   ./configure [--prefix=...] && make && make install
+
+Mac OS X systems may need to remove the
+
+  -Wl,-rpath=${libdir}
+
+bit from the *.in file, unless ld(1) is changed to support that; other
+platforms can use this to avoid the need to set LD_LIBRARY_PATH (and
+consequent slow-downs and other problems) if installing this library
+to some custom directory.
 
 Once installed, include the library and call the appropriate flagto*
 functions. If the user input cannot be parsed, or lies outside the given
@@ -32,7 +40,7 @@ things go awry.
 PORTABILITY
 
 Portability has not been much tested, with my usage being mostly
-confined to OpenBSD (6.7), less so Mac OS X (10.10), and much less so
+confined to OpenBSD (5.9), less so Mac OS X (10.11), and much less so
 Linux (RedHat EL 6).
 
 
@@ -48,7 +56,7 @@ repository, and delete the clone when done building.
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2015 Jeremy Mates
+Copyright (C) 2015-2016 Jeremy Mates
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
