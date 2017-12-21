@@ -6,7 +6,6 @@
 #ifdef __linux__
 #define _BSD_SOURCE
 #define _GNU_SOURCE
-#include <getopt.h>
 #endif
 
 #include <ctype.h>
@@ -20,17 +19,27 @@
 #include <sysexits.h>
 #include <unistd.h>
 
-// single value calls for things like -f 0.21 -k 5
+// non-option named arguments (from argv[1] or similar)
+double argtod(const char *argname, const char *arg, const double min,
+                     const double max);
+long long argtoll(const char *argname, const char *arg, const long long min,
+                  const long long max);
+unsigned long argtoul(const char *argname, const char *arg,
+                      const unsigned long min, const unsigned long max);
+
+// single value calls for -f 0.21 or -k 5
 double flagtod(const int flag, const char *flagarg,
                const double min, const double max);
-float flagtof(const int flag, const char *flagarg,
-              const float min, const float max);
 long long flagtoll(const int flag, const char *flagarg,
                    const long long min, const long long max);
 unsigned long flagtoul(const int flag, const char *flagarg,
                        const unsigned long min, const unsigned long max);
 
-// list of values e.g. -d '5 4 9 3' to be populated into the supplied **
+/* flagtof was removed in goptfoo version 5.0. instead use flagtod and
+ * cast if you do need a float. also note that 32-bit floats are
+ * somewhat inaccurate and start confusing integers as low as 16777216 */
+
+// list of values -d '5 4 9 3' to be populated into the supplied **items
 size_t flagtolods(const int flag, const char *flagarg,
                   const double min, const double max,
                   double **items, size_t * numitems,

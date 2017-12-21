@@ -33,3 +33,5 @@ demo/.deps
 demo/.libs
 demo/goptfoo
 demo/goptfoo.o
+goptfoo-*.tar.gz
+goptfoo-*/

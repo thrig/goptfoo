@@ -1,9 +1,8 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
-
-AC_PREREQ(2.60)
-AC_INIT([goptfoo], [4], [https://github.com/thrig/goptfoo])
+AC_PREREQ([2.69])
+# TODO libtool errors out if use a versioned number such as 5.0
+AC_INIT([goptfoo], [5], [jmates@cpan.org], [], [https://github.com/thrig/goptfoo])
 AC_CONFIG_SRCDIR([lib/goptfoo.c])
+AC_CONFIG_HEADERS([config.h])
 
 # standard configuration for shared libraries
 AC_CONFIG_AUX_DIR([build-aux])
@@ -13,20 +12,33 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign]) # don't insert GNU files
 LT_INIT([disable-static])
 
-# TODO probably should check ac_cv_prog_cc_c99 shell variable and fail
-# if c99 compiler not present.
-AC_PROG_CC_C99
-
-AC_SUBST(AM_CFLAGS,"-pedantic -Wall -fstack-protector-all")
-AC_CONFIG_HEADERS([config.h])
-
-AC_HEADER_STDC
-AC_CHECK_HEADERS([ctype.h err.h limits.h math.h stdlib.h sysexits.h unistd.h])
-
+# TODO is this redundant with the next check?
+#AC_PROG_CC
+AC_PROG_CC_C99([], [AC_MSG_ERROR([no c99 compiler])])
+AC_CHECK_HEADERS([ctype.h err.h limits.h math.h stdint.h stdlib.h string.h sysexits.h unistd.h], [], [AC_MSG_ERROR([missing header])])
 AC_C_CONST
+AC_TYPE_SIZE_T
+AC_CHECK_FUNCS([realloc strtod strtof strtoll strtoul], [], [AC_MSG_ERROR([missing function])])
 
-AC_FUNC_STRTOD
-AC_CHECK_FUNCS([realloc strtof strtoll strtoul])
+# TODO ideally should have m4 that probes ld(1) for what rpath flavor it
+# has as this is something of a KLUGE (LDFLAGS is not an option as those
+# may get passed to the MacPorts gcc which then barfs on the mac linker
+# flags...)
+AC_ARG_ENABLE([macos-rpath],
+    [  --enable-macos-rpath    enable macOS rpath flags for linker],
+    [macos_rpath=${enableval}], [macos_rpath=no])
+AC_ARG_ENABLE([the-rpath],
+    [  --enable-the-rpath      enable -rpath flag for linker],
+    [the_rpath=${enableval}], [the_rpath=no])
+
+if test "x${macos_rpath}" = xyes; then
+    AC_SUBST([RPATH_FOO], ["-Wl,-macosx_version_min -Wl,10.11 -Wl,-rpath -Wl,\${libdir}"])
+elif test "x${the_rpath}" = xyes; then
+    AC_SUBST([RPATH_FOO], ["-Wl,-rpath=\${libdir}"])
+else
+    AC_SUBST([RPATH_FOO], [""])
+fi
 
 AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile demo/Makefile goptfoo.pc])
+
 AC_OUTPUT

@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: goptfoo
 Description: Utility functions for command-line option parsing
 Version: @PACKAGE_VERSION@
-Libs: -Wl,-rpath=${libdir} -L${libdir} -lgoptfoo
+Libs: @RPATH_FOO@ -L${libdir} -lgoptfoo
 Cflags: -I${includedir}

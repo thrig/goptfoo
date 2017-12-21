@@ -1,1 +1,1 @@
-man_MANS = goptfoo.3
+notrans_dist_man_MANS = goptfoo.3

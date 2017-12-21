@@ -1,25 +1,36 @@
 goptfoo(3) - utility functions for command-line option parsing
 
-Build and install along the lines of:
+Build and install direct from the repository via something like:
 
   export AUTOMAKE_VERSION=1.15
   export AUTOCONF_VERSION=2.69
   autoreconf -i
+
+and then with gcc to enable stack protection 
+
+  CC=gcc \
+  CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
   ./configure [--prefix=...] && make && make install
+  make && make install
 
-Mac OS X systems may need to remove the
+or instead use `./configure --help` and inspect the available options.
+In particular, the --enable-wl-rpath or --enable-macos-rpath flags to
+./configure may help select a better set of linker flags, if goptfoo is
+being installed to a software depot outside the usual search path. That
+is, on Mac OS X I use:
 
-  -Wl,-rpath=${libdir}
+  CC=gcc \
+  CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
+  ./configure --enable-macos-rpath --prefix=$HOME/usr/Darwin15.6.0-x86_64
+  make && make install
 
-bit from the *.in file, unless ld(1) is changed to support that; other
-platforms can use this to avoid the need to set LD_LIBRARY_PATH (and
-consequent slow-downs and other problems) if installing this library
-to some custom directory.
+while on OpenBSD:
 
-Once installed, include the library and call the appropriate flagto*
-functions. If the user input cannot be parsed, or lies outside the given
-limits, an error message will be sent to standard error, and the process
-will exit with a code from sysexits(3).
+  doas pkg_add gcc
+  CC=egcc \
+  CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
+  ./configure --enable-the-rpath --prefix=$HOME/usr/OpenBSD6.2-x86_64
+  make && make install
 
 Consult goptfoo(3) for a list of available functions and example code;
 see also the demo/ directory of this distribution.
@@ -27,57 +38,17 @@ see also the demo/ directory of this distribution.
 
 BUGS
 
-Bugs and feature requests should be directed to:
+Bug fixes and feature requests should be directed to:
 
 https://github.com/thrig/goptfoo
 
 though the intent is not to greatly complicate this code, which means no
-gettext or the like for fancy internationalized error messages, nor
-error handling beyond simply calling err() to bail the process when
-things go awry.
+gettext for fancy internationalized error messages, nor error handling
+beyond simply calling err() to bail the process when things go awry.
 
 
 PORTABILITY
 
 Portability has not been much tested, with my usage being mostly
-confined to OpenBSD (5.9), less so Mac OS X (10.11), and much less so
-Linux (RedHat EL 6).
-
-
-CLEANUP
-
-To clean up the auto* leavings, perhaps:
-
-  find . | git check-ignore --stdin | xargs rm
-
-Assuming the .gitignore patterns are correct. Or, clone from a clean git
-repository, and delete the clone when done building.
-
-
-COPYRIGHT AND LICENCE
-
-Copyright (C) 2015-2016 Jeremy Mates
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-
-HISTORY
-
-Motivated by the need for option processing in C, and the unportability
-of the otherwise excellent OpenBSD strtonum(3) function (leaving aside
-how to handle floats), and the much boilerplate required to at least
-provide a modest barrier to invalid or otherwise malicious input. These
-functions at one point littered various scripts, then got moved to
-arbitrary *.{c,h} files that were manually included, and finally to this
-library. The Churchill quote on doing everything first the wrong way is
-much in mind.
+confined to Mac OS X (10.11), OpenBSD (5.9-6.2), and much less Linux
+(RedHat EL 6, 7).
