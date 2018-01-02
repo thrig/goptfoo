@@ -1,8 +1,7 @@
 /* example script for goptfoo(3) that shows how its various functions
  * can be integrated with getopt(3). compile with something like
  *
- *   cc -c `pkg-config --cflags goptfoo` -g -std=c99 goptfoo.c -o gof.o
- *   ld `pkg-config --libs goptfoo` -lc gof.o -o getoptfoo
+ *   cc `pkg-config --cflags --libs goptfoo` -g -std=c99 goptfoo.c -o goptfoo
  */
 
 #ifdef __linux__

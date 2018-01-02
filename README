@@ -32,6 +32,22 @@ while on OpenBSD:
   ./configure --enable-the-rpath --prefix=$HOME/usr/OpenBSD6.2-x86_64
   make && make install
 
+or on Linux, except the depot path cannot really use `uname``uname -r`
+as on Mac OS X or OpenBSD, so one kluge is to use the distribution name
+and version
+
+  CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
+  ./configure --enable-the-rpath --prefix=$HOME/usr/centos7-x86_64
+
+These custom install directories do require that pkg-config(1) be aware
+of them; e.g. on OpenBSD the shell might be configured via
+
+  PKG_CONFIG_PATH="$HOME/usr/OpenBSD6.2-x86_64/lib/pkgconfig:/usr/local/lib/pkgconfig"
+  export PKG_CONFIG_PATH
+
+
+DOCUMENTATION
+
 Consult goptfoo(3) for a list of available functions and example code;
 see also the demo/ directory of this distribution.
 

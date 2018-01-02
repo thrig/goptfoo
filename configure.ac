@@ -39,6 +39,6 @@ else
     AC_SUBST([RPATH_FOO], [""])
 fi
 
-AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile demo/Makefile goptfoo.pc])
+AC_CONFIG_FILES([Makefile lib/Makefile man/Makefile goptfoo.pc])
 
 AC_OUTPUT
