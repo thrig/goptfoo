@@ -2,7 +2,7 @@ goptfoo(3) - utility functions for command-line option parsing
 
 Build and install direct from the repository via something like:
 
-  export AUTOMAKE_VERSION=1.15
+  export AUTOMAKE_VERSION=1.16
   export AUTOCONF_VERSION=2.69
   autoreconf -i
 
@@ -26,10 +26,10 @@ is, on Mac OS X I use:
 
 while on OpenBSD:
 
-  doas pkg_add gcc
+  doas pkg_add gcc libtool automake autoconf
   CC=egcc \
   CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
-  ./configure --enable-the-rpath --prefix=$HOME/usr/OpenBSD6.2-x86_64
+  ./configure --enable-the-rpath --prefix=$HOME/usr/OpenBSD6.4-amd64
   make && make install
 
 or on Linux, except the depot path cannot really use `uname``uname -r`
@@ -42,7 +42,7 @@ and version
 These custom install directories do require that pkg-config(1) be aware
 of them; e.g. on OpenBSD the shell might be configured via
 
-  PKG_CONFIG_PATH="$HOME/usr/OpenBSD6.2-x86_64/lib/pkgconfig:/usr/local/lib/pkgconfig"
+  PKG_CONFIG_PATH="$HOME/usr/OpenBSD6.4-amd64/lib/pkgconfig:/usr/local/lib/pkgconfig"
   export PKG_CONFIG_PATH
 
 
