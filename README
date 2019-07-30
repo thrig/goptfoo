@@ -1,6 +1,6 @@
 goptfoo(3) - utility functions for command-line option parsing
 
-Build and install direct from the repository via something like:
+build and install direct from the repository via something like:
 
   export AUTOMAKE_VERSION=1.16
   export AUTOCONF_VERSION=2.69
@@ -14,9 +14,9 @@ and then with gcc to enable stack protection
   make && make install
 
 or instead use `./configure --help` and inspect the available options.
-In particular, the --enable-wl-rpath or --enable-macos-rpath flags to
+in particular, the --enable-wl-rpath or --enable-macos-rpath flags to
 ./configure may help select a better set of linker flags, if goptfoo is
-being installed to a software depot outside the usual search path. That
+being installed to a software depot outside the usual search path. that
 is, on Mac OS X I use:
 
   CC=gcc \
@@ -26,45 +26,48 @@ is, on Mac OS X I use:
 
 while on OpenBSD:
 
-  doas pkg_add gcc libtool automake autoconf
-  CC=egcc \
+  doas pkg_add libtool automake autoconf
   CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
-  ./configure --enable-the-rpath --prefix=$HOME/usr/OpenBSD6.4-amd64
+  ./configure --enable-the-rpath \
+    --prefix=$HOME/usr/`uname``uname -r`-`uname -m`
   make && make install
 
-or on Linux, except the depot path cannot really use `uname``uname -r`
-as on Mac OS X or OpenBSD, so one kluge is to use the distribution name
-and version
+or on Linux, except the software depot path cannot really use `uname
+...` as on Mac OS X or OpenBSD, so one kluge is to use the distribution
+name and version
 
   CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
   ./configure --enable-the-rpath --prefix=$HOME/usr/centos7-x86_64
 
-These custom install directories do require that pkg-config(1) be aware
+
+pkg-config
+
+these custom install directories do require that pkg-config(1) be aware
 of them; e.g. on OpenBSD the shell might be configured via
 
-  PKG_CONFIG_PATH="$HOME/usr/OpenBSD6.4-amd64/lib/pkgconfig:/usr/local/lib/pkgconfig"
+  PKG_CONFIG_PATH="$HOME/usr/`uname``uname -r`-`uname -m`/lib/pkgconfig:/usr/local/lib/pkgconfig"
   export PKG_CONFIG_PATH
 
 
-DOCUMENTATION
+Documentation
 
-Consult goptfoo(3) for a list of available functions and example code;
-see also the demo/ directory of this distribution.
+goptfoo(3) contains a list of available functions and example code; see
+also the demo/ directory of this distribution, or various scripts under
+
+https://github.com/thrig/scripts/
 
 
-BUGS
-
-Bug fixes and feature requests should be directed to:
+Bugs
 
 https://github.com/thrig/goptfoo
 
 though the intent is not to greatly complicate this code, which means no
 gettext for fancy internationalized error messages, nor error handling
-beyond simply calling err() to bail the process when things go awry.
+beyond simply calling err() to bail the process when things go awry
 
 
-PORTABILITY
+Portability
 
-Portability has not been much tested, with my usage being mostly
-confined to Mac OS X (10.11), OpenBSD (5.9-6.2), and much less Linux
-(RedHat EL 6, 7).
+portability has not been much tested, with my usage being mostly
+confined to Mac OS X (10.11), OpenBSD (5.9-6.5), and much less Linux
+(RedHat EL 6, Centos 7)

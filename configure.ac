@@ -24,6 +24,8 @@ AC_CHECK_FUNCS([realloc strtod strtof strtoll strtoul], [], [AC_MSG_ERROR([missi
 # has as this is something of a KLUGE (LDFLAGS is not an option as those
 # may get passed to the MacPorts gcc which then barfs on the mac linker
 # flags...)
+# KLUGE llvm linker wants --rpath while GNU -rpath but both support -R path
+# so let's try that for compat between ld.lld and ld.bfd on OpenBSD 6.5...
 AC_ARG_ENABLE([macos-rpath],
     [  --enable-macos-rpath    enable macOS rpath flags for linker],
     [macos_rpath=${enableval}], [macos_rpath=no])
@@ -34,7 +36,7 @@ AC_ARG_ENABLE([the-rpath],
 if test "x${macos_rpath}" = xyes; then
     AC_SUBST([RPATH_FOO], ["-Wl,-macosx_version_min -Wl,10.11 -Wl,-rpath -Wl,\${libdir}"])
 elif test "x${the_rpath}" = xyes; then
-    AC_SUBST([RPATH_FOO], ["-Wl,-rpath=\${libdir}"])
+    AC_SUBST([RPATH_FOO], ["-Wl,-R \${libdir}"])
 else
     AC_SUBST([RPATH_FOO], [""])
 fi
