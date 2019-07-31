@@ -30,7 +30,7 @@ AC_ARG_ENABLE([macos-rpath],
     [  --enable-macos-rpath    enable macOS rpath flags for linker],
     [macos_rpath=${enableval}], [macos_rpath=no])
 AC_ARG_ENABLE([the-rpath],
-    [  --enable-the-rpath      enable -rpath flag for linker],
+    [  --enable-the-rpath      enable rpath flag for linker],
     [the_rpath=${enableval}], [the_rpath=no])
 
 if test "x${macos_rpath}" = xyes; then

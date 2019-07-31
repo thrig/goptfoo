@@ -13,18 +13,22 @@ and then with gcc to enable stack protection
   ./configure [--prefix=...] && make && make install
   make && make install
 
-or instead use `./configure --help` and inspect the available options.
-in particular, the --enable-wl-rpath or --enable-macos-rpath flags to
-./configure may help select a better set of linker flags, if goptfoo is
-being installed to a software depot outside the usual search path. that
-is, on Mac OS X I use:
+or instead use `./configure --help` and inspect the available options
+
+
+how to avoid LD_LIBRARY_PATH
+
+in particular, the --enable-the-rpath or --enable-macos-rpath flags to
+./configure may help select a better set of linker flags should goptfoo
+be installed to a software depot outside the usual search path. that is,
+on Mac OS X
 
   CC=gcc \
   CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
   ./configure --enable-macos-rpath --prefix=$HOME/usr/Darwin15.6.0-x86_64
   make && make install
 
-while on OpenBSD:
+or on OpenBSD
 
   doas pkg_add libtool automake autoconf
   CFLAGS="-pedantic -O2 -Wall -fstack-protector-all -fPIC -fPIE -pie -pipe" \
@@ -47,6 +51,11 @@ of them; e.g. on OpenBSD the shell might be configured via
 
   PKG_CONFIG_PATH="$HOME/usr/`uname``uname -r`-`uname -m`/lib/pkgconfig:/usr/local/lib/pkgconfig"
   export PKG_CONFIG_PATH
+
+and then to use that while compiling things that use goptfoo:
+
+  blah: blah.c
+        $(CC) $(CFLAGS) `pkg-config --cflags --libs goptfoo` blah.c -o blah
 
 
 Documentation
